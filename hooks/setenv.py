@@ -10,11 +10,11 @@ def getcairoenv(options=None,buildout=None):
     cwd =os.getcwd()
     if buildout:
         for var in ['zlib','libxslt','libxml2','cairo','libpng','freetype','fontconfig']:
-            appendEnvVar('PKG_CONFIG_PATH', ["%(lib)s/lib/pkgconfig/'"%{'lib':buildout[var]['location']}],sep=':',before=False)
-            appendEnvVar('LDFLAGS', ["-L%(lib)s/lib -Wl,-rpath -Wl,%(lib)s/lib %(os)s"%{'lib':buildout[var]['location'],'os':os_ldflags}],sep=' ',before=False)
-            appendEnvVar('CFLAGS', ["-I%s/include "%(buildout[var]['location'])],sep=' ',before=False)
-            appendEnvVar('CPPFLAGS', ["-I%s/include "%(buildout[var]['location'])],sep=' ',before=False)
-            appendEnvVar('LD_RUN_PATH', [buildout[var]['lib']],sep=':',before=False)
+            append_env_var('PKG_CONFIG_PATH', ["%(lib)s/lib/pkgconfig/'"%{'lib':buildout[var]['location']}],sep=':',before=False)
+            append_env_var('LDFLAGS', ["-L%(lib)s/lib -Wl,-rpath -Wl,%(lib)s/lib %(os)s"%{'lib':buildout[var]['location'],'os':os_ldflags}],sep=' ',before=False)
+            append_env_var('CFLAGS', ["-I%s/include "%(buildout[var]['location'])],sep=' ',before=False)
+            append_env_var('CPPFLAGS', ["-I%s/include "%(buildout[var]['location'])],sep=' ',before=False)
+            append_env_var('LD_RUN_PATH', [buildout[var]['lib']],sep=':',before=False)
     else:
         for path in [ 'libxslt-1.1', 'libpng-1.2', 'libxml2-2.6', 'freetype-2.1', 'cairo-1.4' ,   'fontconfig-2.5',]:
         # when we call it from classical egg repices, we do not have the
@@ -34,7 +34,7 @@ def getcairoenv(options=None,buildout=None):
                         os.environ['PKG_CONFIG_PATH'] = '%s/lib/pkgconfig/:%s' % ( path,os.environ.get('PKG_CONFIG_PATH'))
 
 
-def appendEnvVar(env,var,sep=":",before=True):
+def append_env_var(env,var,sep=":",before=True):
     """ append text to a environnement variable
     @param env String variable to set
     @param before append before or after the variable"""
